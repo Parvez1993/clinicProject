@@ -1,0 +1,28 @@
+body {
+  overflow-x: hidden;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -500px;
+  transition: 850ms;
+}
+.sidebar.active {
+  right: 0;
+  transition: 350ms;
+}
+
+/* //colors */
+.text {
+  color: rgb(70, 70, 70);
+}
+
+.slick-dots {
+  bottom: -50px;
+}
+
+.custom_container {
+  width: 980px !important;
+  margin: 0 auto !important;
+}
