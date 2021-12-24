@@ -49,6 +49,18 @@ function Navbar() {
             >
               Contact
             </Link>
+            <Link
+              to="/Appointment"
+              className="px-2 text-xl text-pink-50 hover:bg-menu rounded-none  p-2 transition delay-75 duration-300 ease-in"
+            >
+              Appointment
+            </Link>
+            <Link
+              to="/login"
+              className="px-2 text-xl text-pink-50 hover:bg-menu rounded-none  p-2 transition delay-75 duration-300 ease-in"
+            >
+              Login
+            </Link>
           </div>
           <div className="md:hidden">
             <svg

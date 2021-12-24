@@ -26,3 +26,25 @@ body {
   width: 980px !important;
   margin: 0 auto !important;
 }
+
+@media screen and (min-width: 399.99px) {
+  .sidepanel_ul {
+    display: flex !important;
+    flex-direction: row !important;
+  }
+  .userpanel_col2 {
+    position: absolute !important;
+    width: 100vw;
+    height: 100vh;
+    top: 50%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .userpanel_col2 {
+    position: absolute !important;
+    width: 100vw;
+    height: 100vh;
+    top: 50%;
+  }
+}

@@ -57,33 +57,3 @@ function Sidebar() {
 }
 
 export default Sidebar;
-
-{
-  /* <animated.div
-style={{
-  ...styles,
-}}
->
-<div className="bg-green-300 h-screen w-72">
-  <div>
-    <img
-      src={close}
-      width="30"
-      alt="close"
-      onClick={() => setSidebar(false)}
-    />
-  </div>
-  <div className="flex flex-col gap-20 my-14 text-2xl">
-    <Link to="/" className="px-2">
-      Home
-    </Link>
-    <Link to="#" className="px-2">
-      About
-    </Link>
-    <Link to="#" className="px-2">
-      Contact
-    </Link>
-  </div>
-</div>
-</animated.div> */
-}
