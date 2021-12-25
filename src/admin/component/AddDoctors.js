@@ -38,6 +38,9 @@ function AddDoctors() {
 
   const onSubmit = async (data, e) => {
     console.log(data);
+
+    const newData = { ...selectObj, ...data };
+    console.log("new Data", newData);
     // e.target.reset();
     // try {
     //   await axios.post("http://localhost:4000/api/image", image);
@@ -72,6 +75,13 @@ function AddDoctors() {
     reader.readAsDataURL(e.target.files[0]);
   };
 
+  useEffect(() => {
+    if (select.length > 0) {
+      const temp = category.find((i) => i._id === select);
+      setSelectObj(temp);
+    }
+  }, [category, select]);
+  console.log(selectObj);
   return (
     <>
       <div className="px-8 department my-3">
