@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../contextApi/userContext";
 
 function Login() {
@@ -11,6 +11,8 @@ function Login() {
     handleSubmit,
   } = useForm();
 
+  const navigate = useNavigate();
+  console.log(user.role);
   const onSubmit = async (data, e) => {
     e.preventDefault();
     const myHeaders = new Headers();
@@ -26,9 +28,14 @@ function Login() {
         response
           .json()
           .then((data) => setUser(data))
+          .then(() => console.log(user))
           .catch((err) => console.log("error hoise"))
     );
   };
+
+  if (user.role === "admin") {
+    navigate("/admin");
+  }
 
   return (
     <section class="text-gray-600 body-font">

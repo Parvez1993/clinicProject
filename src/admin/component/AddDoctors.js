@@ -1,8 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useUserContext } from "../../contextApi/userContext";
 function AddDoctors() {
   const [category, setCategory] = useState("");
+  //get select from user
+  const [select, setSelect] = useState("");
+  //get object from select
+  const [selectObj, setSelectObj] = useState([]);
+  //preview
+  const [preview, setPreview] = useState(null);
+
+  const { user } = useUserContext();
+  console.log(user);
+
+  //image
+  const [image, setImage] = useState("");
   useEffect(() => {
     const getData = async () => {
       try {
@@ -16,23 +29,49 @@ function AddDoctors() {
     };
     getData();
   }, []);
+
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
 
-  const onSubmit = (data, e) => {
+  const onSubmit = async (data, e) => {
     console.log(data);
+    // e.target.reset();
+    // try {
+    //   await axios.post("http://localhost:4000/api/image", image);
+
+    //   const myHeaders = new Headers();
+    //   myHeaders.append("Content-Type", "application/json");
+    //   myHeaders.append("Authorization", "Token " + user.token);
+    //   const requestOptions = {
+    //     method: "POST",
+    //     body: JSON.stringify(data),
+    //     headers: myHeaders,
+    //   };
+    //   await fetch("http://localhost:4000/api/doctor", requestOptions)
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       console.log(data);
+    //     });
+    // } catch (error) {
+    //   console.log("error");
+    // }
   };
 
-  const disablePastDate = () => {
-    const today = new Date();
-    const dd = String(today.getDate() + 1).padStart(2, "0");
-    const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    const yyyy = today.getFullYear();
-    return yyyy + "-" + mm + "-" + dd;
+  const handleImage = (e) => {
+    e.preventDefault();
+    setImage(e.target.files[0]);
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setPreview(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
   };
+
   return (
     <>
       <div className="px-8 department my-3">
@@ -141,11 +180,12 @@ function AddDoctors() {
               </div>
 
               <select
-                {...register("specialties", { required: true })}
+                onChange={(e) => setSelect(e.target.value)}
                 class="form-select appearance-none
                 
       block
       px-3
+      ml-5
       font-normal
               w-4/5
       bg-white bg-clip-padding bg-no-repeat
@@ -158,10 +198,8 @@ function AddDoctors() {
               >
                 <option selected>Select Speciality</option>
                 {category
-                  ? category.map((i) => {
-                      return (
-                        <option value={i.name + "" + i._id}>{i.name}</option>
-                      );
+                  ? category.map((i, index) => {
+                      return <option value={i._id}>{i.name}</option>;
                     })
                   : "Loading"}
               </select>
@@ -198,10 +236,43 @@ function AddDoctors() {
               </div>
             </div>
           </div>
-          <input
-            type="submit"
-            className="border-2 p-2 w-24 bg-green-900 text-pink-50 text-center block hover:bg-menu hover:text-pink-50"
-          ></input>
+          <div className="my-2">
+            <div>
+              {preview !== null ? (
+                <div className="">
+                  <img
+                    src={preview}
+                    alt="img"
+                    className="w-24 md:w-32 lg:w-48"
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            <div>
+              <label className="mx-2">Doctor Image</label>
+            </div>
+            <input
+              type="file"
+              accept="image/*,.pdf"
+              placeholder="Type Here"
+              className="rounded-lg"
+              style={{ width: "90%" }}
+              onChange={handleImage}
+              required
+            />
+            <div className="text-red-500">
+              {errors.first_name && <span>This field is required</span>}
+            </div>
+          </div>
+
+          <div>
+            <input
+              type="submit"
+              className="border-2 p-2 w-24 bg-green-900 text-pink-50 text-center block hover:bg-menu hover:text-pink-50"
+            ></input>
+          </div>
         </form>
       </div>
     </>
