@@ -4,6 +4,7 @@ import AppointmentSidebar from "../component/appointment/AppointmentSidebar";
 
 function Appointment() {
   const [doctors, setDoctors] = useState("yes");
+  const [category, setCategory] = useState("yes");
   return (
     <>
       <div className="flex flex-col justify-center items-center mt-32 p-2">

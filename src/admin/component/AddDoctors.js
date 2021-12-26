@@ -11,8 +11,12 @@ function AddDoctors() {
   //preview
   const [preview, setPreview] = useState(null);
 
+  //store degree
+  const [degree, setDegree] = useState([]);
+  const [count, setCount] = useState(false);
+  const [message, setMessage] = useState("ki re mamu");
+  let degreeArray = [];
   const { user } = useUserContext();
-  console.log(user);
 
   //image
   const [image, setImage] = useState("");
@@ -37,30 +41,35 @@ function AddDoctors() {
   } = useForm();
 
   const onSubmit = async (data, e) => {
-    console.log(data);
+    const newData = { ...data, degrees: degree };
+    newData.specialties = selectObj;
 
-    const newData = { ...selectObj, ...data };
-    console.log("new Data", newData);
-    // e.target.reset();
-    // try {
-    //   await axios.post("http://localhost:4000/api/image", image);
+    e.target.reset();
+    try {
+      await axios.post("http://localhost:4000/api/image", image);
 
-    //   const myHeaders = new Headers();
-    //   myHeaders.append("Content-Type", "application/json");
-    //   myHeaders.append("Authorization", "Token " + user.token);
-    //   const requestOptions = {
-    //     method: "POST",
-    //     body: JSON.stringify(data),
-    //     headers: myHeaders,
-    //   };
-    //   await fetch("http://localhost:4000/api/doctor", requestOptions)
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       console.log(data);
-    //     });
-    // } catch (error) {
-    //   console.log("error");
-    // }
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Token " + user.token);
+      const requestOptions = {
+        method: "POST",
+        body: JSON.stringify(newData),
+        headers: myHeaders,
+      };
+      await fetch("http://localhost:4000/api/doctor", requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .then(() => {
+          setDegree("");
+          setPreview("");
+          setImage("");
+        });
+    } catch (error) {
+      console.log("error");
+    }
+    setMessage("You have successfully entered the form");
   };
 
   const handleImage = (e) => {
@@ -81,7 +90,36 @@ function AddDoctors() {
       setSelectObj(temp);
     }
   }, [category, select]);
-  console.log(selectObj);
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      if (degree.length > 0) {
+        degreeArray = degree;
+        degreeArray.push(e.target.value);
+        setDegree(degreeArray);
+        e.target.value = "";
+        setCount(true);
+      } else {
+        setDegree([e.target.value]);
+        e.target.value = "";
+        setCount(true);
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    if (count === true) {
+      setCount(false);
+    }
+  }, [count]);
+
+  const removeDegree = (index) => {
+    let temp = degree;
+    let tempRemove = temp.filter((item) => item !== temp[index]);
+    setDegree(tempRemove);
+    setCount(true);
+  };
+
   return (
     <>
       <div className="px-8 department my-3">
@@ -91,6 +129,23 @@ function AddDoctors() {
           <p className="text-xl text">Book your appointments now</p>
         </div>
       </div>
+
+      {message ? (
+        <div className="bg-menu text-white px-6 py-4 border-0 rounded relative mb-4 bg-emerald-500">
+          <span className="text-xl inline-block mr-5 align-middle">
+            <i className="fas fa-bell" />
+          </span>
+          <span className="inline-block align-middle mr-8">
+            <b className="capitalize">Success Yipee</b> {message}
+          </span>
+          <button className="absolute bg-transparent text-2xl font-semibold leading-none right-0 top-0 mt-4 mr-6 outline-none focus:outline-none">
+            <span onClick={() => setMessage("")}>×</span>
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
+
       <div className="container mx-auto mb-32 px-4">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 sm:grid-cols-3">
@@ -183,8 +238,23 @@ function AddDoctors() {
             </div>
           </div>
 
+          {degree.length > 0
+            ? degree.map((i, index) => (
+                <div className="inline-block relative">
+                  <div className=" ml-3  border-green-500 p-1 rounded-full border-4 bg-green-200">
+                    {i}
+                  </div>
+                  <div
+                    className="absolute top-0 z-10"
+                    onClick={() => removeDegree(index)}
+                  >
+                    close
+                  </div>
+                </div>
+              ))
+            : ""}
           <div className="grid grid-cols-1 sm:grid-cols-3">
-            <div className="my-2">
+            <div className="my-10">
               <div>
                 <label className="mx-2">specialties</label>
               </div>
@@ -217,22 +287,19 @@ function AddDoctors() {
                 {errors.specialties && <span>This field is required</span>}
               </div>
             </div>
-            <div className="my-2">
+            <div className="my-10">
               <div>
                 <label className="mx-2">degrees</label>
               </div>
               <input
                 type="text"
-                placeholder="Type Here"
+                placeholder="Please Press Enter"
                 className="rounded-lg"
                 style={{ width: "90%" }}
-                {...register("degrees", { required: true })}
+                onKeyDown={handleKeyPress}
               />
-              <div className="text-red-500">
-                {errors.degrees && <span>This field is required</span>}
-              </div>
             </div>
-            <div className="my-2">
+            <div className="my-10">
               <label className="mx-2">Description</label>
               <input
                 type="text"

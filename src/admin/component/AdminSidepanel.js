@@ -29,9 +29,9 @@ function AdminSidepanel() {
             />
             <p
               className="text-md opacity-80"
-              onClick={() => setList("appointment")}
+              onClick={() => setList("addSpeciality")}
             >
-              APPOINTMENT
+              Add Speciality
             </p>
           </li>
           <li className="text-base p-4 flex items-center">
@@ -56,9 +56,7 @@ function AdminSidepanel() {
             <p
               className="text-base opacity-80"
               onClick={() => setList("history")}
-            >
-              HISTORY
-            </p>
+            ></p>
           </li>
         </div>
       </ul>

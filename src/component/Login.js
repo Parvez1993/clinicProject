@@ -37,6 +37,9 @@ function Login() {
     navigate("/admin");
   }
 
+  if (user.role === "user") {
+    navigate("/user");
+  }
   return (
     <section class="text-gray-600 body-font">
       <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">

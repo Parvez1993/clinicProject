@@ -20,6 +20,7 @@
     "react-scripts": "4.0.3",
     "react-slick": "^0.28.1",
     "react-spring": "^9.3.2",
+    "react-tag-input": "^6.7.3",
     "react-visibility-sensor": "^5.1.1",
     "slick-carousel": "^1.8.1",
     "swiper": "^7.3.1",

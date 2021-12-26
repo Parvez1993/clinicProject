@@ -1,7 +1,7 @@
 import React from "react";
 import { useUserContext } from "../../contextApi/userContext";
 import AddDoctors from "./AddDoctors";
-
+import AddSpeciality from "./AddSpeciality";
 import AdminSidepanel from "./AdminSidepanel";
 
 function Admin() {
@@ -10,8 +10,8 @@ function Admin() {
   const checkList = () => {
     if (list === "doctors") {
       return <AddDoctors />;
-    } else if (list === "appointment") {
-      return "whatsapp";
+    } else if (list === "addSpeciality") {
+      return <AddSpeciality />;
     } else if (list === "prescription") {
       return <h3>prescription</h3>;
     } else if (list === "history") {
