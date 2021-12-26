@@ -29,7 +29,6 @@ function AddSpeciality() {
     }
   }, [count]);
 
-  console.log(specialties);
   const handleKeyPress = async (e) => {
     if (e.key === "Enter") {
       let arr = {};
