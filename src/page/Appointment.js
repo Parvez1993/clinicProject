@@ -3,28 +3,34 @@ import Doctors from "../admin/component/Doctors";
 import AppointmentSidebar from "../component/appointment/AppointmentSidebar";
 
 import axios from "axios";
+import DoctorInformation from "../component/DoctorInformation";
+import { Link } from "react-router-dom";
+import BookDoctor from "../component/BookDoctor";
+import { useUserContext } from "../contextApi/userContext";
 function Appointment() {
   const [doctors, setDoctors] = useState("");
   //from database
   const [specialties, setSpecialties] = React.useState("");
   const [count, setCount] = React.useState(false);
 
-  React.useEffect(() => {
-    if (count === false) {
-      const getSpeciality = async () => {
-        try {
-          const { data } = await axios.get(
-            "http://localhost:4000/api/specialties"
-          );
-          setSpecialties(data);
-        } catch (error) {
-          console.log(error);
-        }
-      };
+  const { user } = useUserContext();
 
-      getSpeciality();
-    }
-  }, [count]);
+  React.useEffect(() => {
+    const getSpeciality = async () => {
+      try {
+        const { data } = await axios.get(
+          "http://localhost:4000/api/specialties"
+        );
+        setSpecialties(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getSpeciality();
+  }, []);
+
+  console.log("ok", specialties);
 
   const handleSpecialityChange = async (e) => {
     setDoctors("");
@@ -35,10 +41,17 @@ function Appointment() {
         `http://localhost:4000/api/doctorsp/${value}`
       );
       setDoctors(data);
+      setCount(true);
     } catch (error) {
       console.log(error);
     }
   };
+
+  React.useEffect(() => {
+    if (count === true) {
+      setCount(false);
+    }
+  }, [count]);
 
   return (
     <>
@@ -48,7 +61,7 @@ function Appointment() {
           <form>
             <select
               className="w-72 h-16 rounded-lg"
-              onChange={handleSpecialityChange}
+              onClick={handleSpecialityChange}
             >
               <option>Choose</option>
               {specialties
@@ -60,13 +73,13 @@ function Appointment() {
           </form>
         </div>
       </div>
-      {console.log(doctors)}
+
       <div className="container mx-auto p-2 mt-32">
         {doctors ? (
           doctors.map((doctor) => {
             return (
               <>
-                <div>
+                <div className="my-10">
                   <div class="flex font-serif w-40 bg shadow-lg">
                     <div class="flex-none w-52 relative">
                       <img
@@ -102,17 +115,13 @@ function Appointment() {
                       <div class="flex items-baseline mt-4 mb-6 pb-6 border-b border-gray-200"></div>
                       <div class="flex space-x-4 mb-5 text-sm font-medium">
                         <div class="flex-auto flex space-x-4 pr-4">
-                          <button
-                            class="flex-none w-36 h-12 uppercase font-medium tracking-wider bg-gray-900 text-white"
-                            type="submit"
-                          >
-                            Book Now
-                          </button>
+                          <BookDoctor id={doctor._id} />
+
                           <button
                             class="flex-none w-1/2 h-12 uppercase font-medium tracking-wider border border-gray-200 text-gray-900"
                             type="button"
                           >
-                            Information
+                            <DoctorInformation id={doctor._id} />
                           </button>
                         </div>
                       </div>

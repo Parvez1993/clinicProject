@@ -11,6 +11,6 @@ export const UseProvider = ({ children }) => {
   );
 };
 
-export const useUserContext = () => {
+export const useSidebarContext = () => {
   return useContext(UserContext);
 };

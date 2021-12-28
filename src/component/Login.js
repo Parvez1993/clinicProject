@@ -27,8 +27,13 @@ function Login() {
       (response) =>
         response
           .json()
-          .then((data) => setUser(data))
-          .then(() => console.log(user))
+          .then((data) => {
+            setUser(data);
+            window.localStorage.setItem(
+              "user",
+              JSON.stringify(Object.values(data))
+            );
+          })
           .catch((err) => console.log("error hoise"))
     );
   };

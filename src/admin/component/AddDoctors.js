@@ -14,7 +14,10 @@ function AddDoctors() {
   //store degree
   const [degree, setDegree] = useState([]);
   const [count, setCount] = useState(false);
-  const [message, setMessage] = useState("ki re mamu");
+  const [message, setMessage] = useState("Successfully done");
+
+  const [error, setError] = useState("Error");
+
   let degreeArray = [];
   const { user } = useUserContext();
 
@@ -41,12 +44,19 @@ function AddDoctors() {
   } = useForm();
 
   const onSubmit = async (data, e) => {
-    const newData = { ...data, degrees: degree };
+    if (!degree.length > 0) {
+      return setError("Please fill the degree by pressing enter");
+    }
+    const newData = { ...data, degrees: degree, role: "doctor" };
+    const newImage = { image: image };
     newData.specialties = selectObj;
+    const imageForm = new FormData(e.target);
+    imageForm.append("image", image);
 
     e.target.reset();
+    console.log(newImage);
     try {
-      await axios.post("http://localhost:4000/api/image", image);
+      await axios.post("http://localhost:4000/api/image", imageForm);
 
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -240,21 +250,31 @@ function AddDoctors() {
 
           {degree.length > 0
             ? degree.map((i, index) => (
-                <div className="inline-block relative">
-                  <div className=" ml-3  border-green-500 p-1 rounded-full border-4 bg-green-200">
-                    {i}
-                  </div>
-                  <div
-                    className="absolute top-0 z-10"
-                    onClick={() => removeDegree(index)}
-                  >
-                    close
-                  </div>
-                </div>
+                <span class="px-4 py-2 rounded-full text-pink-50 bg-green-800 font-semibold text-sm mx-2 w-max cursor-pointer active:bg-gray-300 transition duration-300 ease inline-block">
+                  {i}
+                  <button class="bg-transparent hover focus:outline-none">
+                    <svg
+                      aria-hidden="true"
+                      focusable="false"
+                      data-prefix="fas"
+                      data-icon="times"
+                      class="w-3 ml-3"
+                      role="img"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 352 512"
+                      onClick={() => removeDegree(index)}
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                      ></path>
+                    </svg>
+                  </button>
+                </span>
               ))
             : ""}
           <div className="grid grid-cols-1 sm:grid-cols-3">
-            <div className="my-10">
+            <div className="my-6">
               <div>
                 <label className="mx-2">specialties</label>
               </div>
@@ -287,7 +307,7 @@ function AddDoctors() {
                 {errors.specialties && <span>This field is required</span>}
               </div>
             </div>
-            <div className="my-10">
+            <div className="my-6">
               <div>
                 <label className="mx-2">degrees</label>
               </div>
@@ -299,7 +319,7 @@ function AddDoctors() {
                 onKeyDown={handleKeyPress}
               />
             </div>
-            <div className="my-10">
+            <div className="my-6">
               <label className="mx-2">Description</label>
               <input
                 type="text"
@@ -332,10 +352,10 @@ function AddDoctors() {
             </div>
             <input
               type="file"
-              accept="image/*,.pdf"
               placeholder="Type Here"
               className="rounded-lg"
               style={{ width: "90%" }}
+              multiple="multiple"
               onChange={handleImage}
               required
             />

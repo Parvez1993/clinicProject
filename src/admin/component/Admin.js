@@ -3,6 +3,8 @@ import { useUserContext } from "../../contextApi/userContext";
 import AddDoctors from "./AddDoctors";
 import AddSpeciality from "./AddSpeciality";
 import AdminSidepanel from "./AdminSidepanel";
+import Doctors from "./Doctors";
+import ViewUsers from "./ViewUsers";
 
 function Admin() {
   const { list } = useUserContext();
@@ -14,8 +16,10 @@ function Admin() {
       return <AddSpeciality />;
     } else if (list === "prescription") {
       return <h3>prescription</h3>;
-    } else if (list === "history") {
-      return <h3>history</h3>;
+    } else if (list === "view_users") {
+      return <ViewUsers />;
+    } else if (list === "view_doctors") {
+      return <Doctors />;
     } else {
       return <h3>Welcome to the admin panel</h3>;
     }

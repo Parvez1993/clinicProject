@@ -1,7 +1,14 @@
 import moment from "moment";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useUserContext } from "../../contextApi/userContext";
 function UserAppointment() {
+  //hooks form
+  const [firstname, setfirstname] = useState("");
+  const [lastname, setlastname] = useState("");
+  const [phone, setphone] = useState("");
+  const [email, setEmail] = useState("");
+
   const {
     register,
     formState: { errors },
@@ -13,6 +20,10 @@ function UserAppointment() {
 
     console.log(data);
   };
+
+  const { user } = useUserContext();
+
+  console.log(user);
 
   const disablePastDate = () => {
     const today = new Date();

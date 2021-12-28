@@ -9,6 +9,7 @@ import UserPanel from "./component/UserPanel";
 import Login from "./component/Login";
 import UserSignup from "./component/UserSignup";
 import Admin from "./admin/component/Admin";
+import UserLogin from "./component/UserLogin";
 function App() {
   return (
     <>
@@ -21,8 +22,9 @@ function App() {
           <Route path="/signup" element={<UserSignup />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/appointment" element={<Appointment />} />
-          <Route path="/admin/addDoctors" element={<UserAppointment />} />
+          <Route path="/user/addDoctors" element={<UserAppointment />} />
           <Route path="/admin/doctors/" element={<Doctors />} />
+          <Route path="try" element={<UserLogin />} />
         </Routes>
       </BrowserRouter>
     </>

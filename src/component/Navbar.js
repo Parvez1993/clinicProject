@@ -1,11 +1,25 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { useUserContext } from "../contextapi";
+import { Link, useNavigate } from "react-router-dom";
+import { useSidebarContext } from "../contextapi";
+import { useUserContext } from "../contextApi/userContext";
 import globe from "../images/globe.svg";
 import menu from "../images/menu.svg";
 import Sidebar from "./Sidebar";
 function Navbar() {
-  const { sidebar, setSidebar } = useUserContext();
+  const { setSidebar } = useSidebarContext();
+  const { user, setUser } = useUserContext();
+  const navigate = useNavigate();
+
+  console.log(user);
+  const logout = async () => {
+    try {
+      await setUser("");
+      window.localStorage.removeItem("user");
+      navigate("/");
+    } catch (error) {
+      console.log("error");
+    }
+  };
 
   return (
     <>
@@ -55,12 +69,22 @@ function Navbar() {
             >
               Appointment
             </Link>
-            <Link
-              to="/login"
-              className="px-2 text-xl text-pink-50 hover:bg-menu rounded-none  p-2 transition delay-75 duration-300 ease-in"
-            >
-              Login
-            </Link>
+
+            {user.token ? (
+              <button
+                className="px-2 text-xl text-pink-50 hover:bg-menu rounded-none  p-2 transition delay-75 duration-300 ease-in"
+                onClick={logout}
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                className="px-2 text-xl text-pink-50 hover:bg-menu rounded-none  p-2 transition delay-75 duration-300 ease-in"
+              >
+                Login
+              </Link>
+            )}
           </div>
           <div className="md:hidden">
             <svg
