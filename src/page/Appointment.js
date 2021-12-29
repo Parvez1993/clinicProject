@@ -33,17 +33,19 @@ function Appointment() {
   console.log("ok", specialties);
 
   const handleSpecialityChange = async (e) => {
-    setDoctors("");
     const value = e.target.value;
+    console.log(value);
 
-    try {
-      const { data } = await axios.get(
-        `http://localhost:4000/api/doctorsp/${value}`
-      );
-      setDoctors(data);
-      setCount(true);
-    } catch (error) {
-      console.log(error);
+    if (value !== "Choose") {
+      try {
+        const { data } = await axios.get(
+          `http://localhost:4000/api/doctorsp/${value}`
+        );
+        setDoctors(data);
+        setCount(true);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -115,13 +117,17 @@ function Appointment() {
                       <div class="flex items-baseline mt-4 mb-6 pb-6 border-b border-gray-200"></div>
                       <div class="flex space-x-4 mb-5 text-sm font-medium">
                         <div class="flex-auto flex space-x-4 pr-4">
-                          <BookDoctor id={doctor._id} />
+                          {doctor._id ? <BookDoctor docid={doctor._id} /> : ""}
 
                           <button
                             class="flex-none w-1/2 h-12 uppercase font-medium tracking-wider border border-gray-200 text-gray-900"
                             type="button"
                           >
-                            <DoctorInformation id={doctor._id} />
+                            {doctor._id ? (
+                              <DoctorInformation id={doctor._id} />
+                            ) : (
+                              ""
+                            )}
                           </button>
                         </div>
                       </div>

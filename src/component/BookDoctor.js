@@ -3,9 +3,10 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useUserContext } from "../contextApi/userContext";
+import { Link, useNavigate } from "react-router-dom";
 
 function BookDoctor(props) {
-  const { id } = props;
+  const { docid } = props;
   const [showModal, setShowModal] = React.useState(false);
   const [doctors, setDoctors] = React.useState("");
   const [userdetails, setUserDetails] = React.useState("");
@@ -17,9 +18,27 @@ function BookDoctor(props) {
   const { user } = useUserContext();
 
   React.useEffect(() => {
-    if (user) {
+    if (docid) {
+      const getDoctors = async () => {
+        try {
+          const { data } = await axios.get(
+            `http://localhost:4000/api/doctor/${docid}`
+          );
+          setDoctors(data);
+          console.log(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getDoctors();
+    }
+  }, [docid]);
+
+  React.useEffect(() => {
+    if (user.length !== 0) {
       const id = Object.values(user)[0];
       axios.get(`http://localhost:4000/api/patient/${id}`).then((res) => {
+        console.log("aaaa", id);
         setUserDetails(res.data);
         setfirstname(res.data.first_name);
         setlastname(res.data.last_name);
@@ -29,22 +48,9 @@ function BookDoctor(props) {
     }
   }, [user]);
 
-  console.log(userdetails);
+  console.log("firstname", firstname);
 
-  React.useEffect(() => {
-    const getDoctors = async () => {
-      try {
-        const { data } = await axios.get(
-          `http://localhost:4000/api/doctor/${id}`
-        );
-        setDoctors(data);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getDoctors();
-  }, []);
+  console.log(user.length);
 
   const {
     register,
@@ -97,15 +103,20 @@ function BookDoctor(props) {
                     <div className="px-8 department my-3">
                       <div className="border-b-8 border-green-800 w-24 opacity-50 my-6" />
                       <div>
-                        <p className="text-xl text">
-                          Book your appointments now for...
-                          <span className="font-bold">
-                            Dr: {doctors.first_name}
-                          </span>
-                        </p>
+                        {doctors ? (
+                          <p className="text-xl text">
+                            Book your appointments now for...
+                            <span className="font-bold">
+                              Dr: {doctors.first_name}
+                            </span>
+                          </p>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
-                    {userdetails ? (
+
+                    {user.length !== 0 ? (
                       <div className="container mx-auto mb-32 px-4">
                         <form>
                           <div className="grid grid-cols-1 sm:grid-cols-3">
@@ -211,7 +222,9 @@ function BookDoctor(props) {
                         </form>
                       </div>
                     ) : (
-                      "Wait"
+                      <Link to="/login">
+                        Please login in to continue. Click here
+                      </Link>
                     )}
                   </p>
                 </div>
