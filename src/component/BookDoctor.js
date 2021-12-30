@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useUserContext } from "../contextApi/userContext";
 import { Link, useNavigate } from "react-router-dom";
+import Calendar from "react-calendar";
 
 function BookDoctor(props) {
   const { docid } = props;
@@ -17,6 +18,12 @@ function BookDoctor(props) {
   const [email, setEmail] = useState(null);
   const { user } = useUserContext();
 
+  //calender variables
+  let [slots, setSlots] = useState(null);
+  let [calender, setCalender] = useState("");
+  let [slotSelected, setSlotSelected] = useState("Choose");
+  let [dataSelected, setdataSelected] = useState("");
+  let temp = "";
   React.useEffect(() => {
     if (docid) {
       const getDoctors = async () => {
@@ -24,6 +31,7 @@ function BookDoctor(props) {
           const { data } = await axios.get(
             `http://localhost:4000/api/doctor/${docid}`
           );
+          setCalender(data.appt);
           setDoctors(data);
           console.log(data);
         } catch (error) {
@@ -52,23 +60,56 @@ function BookDoctor(props) {
 
   console.log(user.length);
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm();
+  // const disablePastDate = () => {
+  //   const today = new Date();
+  //   const dd = String(today.getDate() + 1).padStart(2, "0");
+  //   const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  //   const yyyy = today.getFullYear();
+  //   return yyyy + "-" + mm + "-" + dd;
+  // };
 
-  const onSubmit = (data, e) => {
-    e.preventDefault();
-    console.log(data);
+  const handleChange = async (e) => {
+    const value = await moment(e).format("DD/MM/YYYY");
+    console.log(value);
+    temp = await calender.find((data) => data.date === value);
+    setSlots(temp);
+    setdataSelected(value);
   };
 
-  const disablePastDate = () => {
-    const today = new Date();
-    const dd = String(today.getDate() + 1).padStart(2, "0");
-    const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    const yyyy = today.getFullYear();
-    return yyyy + "-" + mm + "-" + dd;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("hello");
+    if (!firstname && !lastname && !phone && !email && slotSelected === "") {
+      window.alert("Please fill all the forms");
+    } else if (slotSelected === "Choose") {
+      window.alert("Please pick a time slot ");
+    } else {
+      const data = {
+        first_name: firstname,
+        last_name: lastname,
+        phone: phone,
+        email: email,
+        date: dataSelected,
+        time: slotSelected,
+        doctor_id: doctors._id,
+        doctor_name: doctors.first_name + " " + doctors.last_name,
+      };
+
+      const requestOptions = {
+        method: "POST",
+        body: JSON.stringify(data),
+      };
+      try {
+        await fetch("http://localhost:4000/api/appointment", requestOptions);
+      } catch (error) {
+        console.log("error");
+      }
+    }
+  };
+
+  const handleSelectedSlot = (e) => {
+    let value = e.target.value;
+    setSlotSelected(value);
   };
   return (
     <>
@@ -98,136 +139,156 @@ function BookDoctor(props) {
                   </button>
                 </div>
                 {/*body*/}
-                <div className="relative p-6 flex-auto">
-                  <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                    <div className="px-8 department my-3">
-                      <div className="border-b-8 border-green-800 w-24 opacity-50 my-6" />
-                      <div>
-                        {doctors ? (
-                          <p className="text-xl text">
-                            Book your appointments now for...
-                            <span className="font-bold">
-                              Dr: {doctors.first_name}
-                            </span>
-                          </p>
-                        ) : (
-                          ""
-                        )}
+                {calender !== null ? (
+                  <div className="relative p-6 flex-auto">
+                    <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                      <div className="px-8 department my-3">
+                        <div className="border-b-8 border-green-800 w-24 opacity-50 my-6" />
+                        <div>
+                          {doctors ? (
+                            <p className="text-xl text">
+                              Book your appointments now for...
+                              <span className="font-bold">
+                                Dr: {doctors.first_name}
+                              </span>
+                            </p>
+                          ) : (
+                            ""
+                          )}
+                        </div>
                       </div>
-                    </div>
 
-                    {user.length !== 0 ? (
-                      <div className="container mx-auto mb-32 px-4">
-                        <form>
-                          <div className="grid grid-cols-1 sm:grid-cols-3">
-                            <div className="my-2">
-                              <div>
-                                <label className="mx-2">First Name</label>
+                      {user.length !== 0 ? (
+                        <div className="container mx-auto mb-32 px-4">
+                          <form>
+                            <div className="grid grid-cols-1 sm:grid-cols-3">
+                              <div className="my-2">
+                                <div>
+                                  <label className="mx-2">First Name</label>
+                                </div>
+                                <input
+                                  type="text"
+                                  placeholder="Type Here"
+                                  className="rounded-lg"
+                                  style={{ width: "90%" }}
+                                  value={firstname}
+                                  onChange={(e) => setfirstname(e.target.value)}
+                                />
                               </div>
-                              <input
-                                type="text"
-                                placeholder="Type Here"
-                                className="rounded-lg"
-                                style={{ width: "90%" }}
-                                value={firstname}
-                                onChange={(e) => setfirstname(e.target.value)}
-                              />
-                              <div className="text-red-500">
-                                {errors.first_name && (
-                                  <span>This field is required</span>
-                                )}
+                              <div className="my-2">
+                                <div>
+                                  <label className="mx-2">Last Name</label>
+                                </div>
+                                <input
+                                  type="text"
+                                  placeholder="Type Here"
+                                  className="rounded-lg"
+                                  style={{ width: "90%" }}
+                                  value={lastname}
+                                  onChange={(e) => setlastname(e.target.value)}
+                                />
                               </div>
-                            </div>
-                            <div className="my-2">
-                              <div>
-                                <label className="mx-2">Last Name</label>
-                              </div>
-                              <input
-                                type="text"
-                                placeholder="Type Here"
-                                className="rounded-lg"
-                                style={{ width: "90%" }}
-                                value={lastname}
-                                onChange={(e) => setlastname(e.target.value)}
-                              />
-                              <div className="text-red-500">
-                                {errors.last_name && (
-                                  <span>This field is required</span>
-                                )}
-                              </div>
-                            </div>
-                            <div className="my-2">
-                              <label className="mx-2">Phone No</label>
-                              <input
-                                type="text"
-                                placeholder="Type Here"
-                                className="rounded-lg"
-                                style={{ width: "90%" }}
-                                value={phone}
-                                onChange={(e) => setphone(e.target.value)}
-                              />
-                              <div className="text-red-500">
-                                {errors.phone && (
-                                  <span>This field is required</span>
-                                )}
+                              <div className="my-2">
+                                <label className="mx-2">Phone No</label>
+                                <input
+                                  type="text"
+                                  placeholder="Type Here"
+                                  className="rounded-lg"
+                                  style={{ width: "90%" }}
+                                  value={phone}
+                                  onChange={(e) => setphone(e.target.value)}
+                                />
                               </div>
                             </div>
-                          </div>
-                          <div className="grid grid-cols-1 sm:grid-cols-2">
-                            <div className="my-4">
-                              <div>
-                                <label className="mx-2">Email</label>
+                            <div className="grid grid-cols-1 sm:grid-cols-3">
+                              <div className="my-4">
+                                <div>
+                                  <label className="mx-2">Email</label>
+                                </div>
+                                <input
+                                  type="email"
+                                  placeholder="Type Here"
+                                  className="rounded-lg"
+                                  style={{ width: "90%" }}
+                                  value={email}
+                                  onChange={(e) => setEmail(e.target.value)}
+                                  required
+                                />
                               </div>
-                              <input
-                                type="email"
-                                placeholder="Type Here"
-                                className="rounded-lg"
-                                style={{ width: "90%" }}
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                              />
-                              <div className="text-red-500">
-                                {errors.email && (
-                                  <span>This field is required</span>
-                                )}
+                              <div className="my-4">
+                                <div>
+                                  <label className="mx-2">Choose Date</label>
+                                </div>
+                                <Calendar
+                                  className="react-calendar"
+                                  tileDisabled={({ date }) =>
+                                    date.getDay() === 0
+                                  }
+                                  minDate={moment().toDate()}
+                                  maxDate={
+                                    new Date(
+                                      Date.now() + 7 * 24 * 60 * 60 * 1000
+                                    )
+                                  }
+                                  onChange={handleChange}
+                                />
                               </div>
-                            </div>
-                            <div className="my-4">
-                              <div>
-                                <label className="mx-2">Date</label>
+                              <div className="my-4">
+                                <div>
+                                  <label className="mx-2">Choose Slot</label>
+                                </div>
+                                <select
+                                  required
+                                  onClick={handleSelectedSlot}
+                                  class="form-select appearance-none
+                
+      block
+      px-3
+      ml-5
+      font-normal
+              w-4/5
+      bg-white bg-clip-padding bg-no-repeat
+      rounded-lg
+      transition
+      ease-in-out
+      m-0
+      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                  aria-label="Default select example"
+                                >
+                                  <option>Choose</option>
+                                  {slots ? (
+                                    slots.slots.map((i, index) => {
+                                      return (
+                                        <option value={i} key={index}>
+                                          {i}
+                                        </option>
+                                      );
+                                    })
+                                  ) : (
+                                    <option disabled>Choose Date first</option>
+                                  )}
+                                </select>
                               </div>
-                              <input
-                                type="date"
-                                placeholder="Type Here"
-                                className="rounded-lg mx-1"
-                                style={{ width: "93%", height: "40px" }}
-                                min={disablePastDate()}
-                                {...register("date", { required: true })}
-                              />
-                              <div className="text-red-500">
-                                {errors.date && (
-                                  <span>This field is required</span>
-                                )}
-                              </div>
-                            </div>
 
-                            <div
-                              className="border-2 p-2 w-24 bg-green-900 text-pink-50 text-center block hover:bg-menu hover:text-pink-50"
-                              onClick={handleSubmit}
-                            >
-                              Submit
+                              <div
+                                className="border-2 p-2 w-24 bg-green-900 text-pink-50 text-center block hover:bg-menu hover:text-pink-50"
+                                onClick={handleSubmit}
+                              >
+                                Submit
+                              </div>
                             </div>
-                          </div>
-                        </form>
-                      </div>
-                    ) : (
-                      <Link to="/login">
-                        Please login in to continue. Click here
-                      </Link>
-                    )}
-                  </p>
-                </div>
+                          </form>
+                        </div>
+                      ) : (
+                        <Link to="/login">
+                          Please login in to continue. Click here
+                        </Link>
+                      )}
+                    </p>
+                  </div>
+                ) : (
+                  "Loading"
+                )}
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
                   <button

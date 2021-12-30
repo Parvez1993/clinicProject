@@ -23,6 +23,10 @@ function AddDoctors() {
 
   //image
   const [image, setImage] = useState("");
+
+  //duration
+
+  const [duration, setDuration] = useState("");
   useEffect(() => {
     const getData = async () => {
       try {
@@ -44,10 +48,16 @@ function AddDoctors() {
   } = useForm();
 
   const onSubmit = async (data, e) => {
-    if (!degree.length > 0) {
+    console.log(data);
+    if (!degree.length > 0 || degree.length < 1) {
       return setError("Please fill the degree by pressing enter");
     }
-    const newData = { ...data, degrees: degree, role: "doctor" };
+    const newData = {
+      ...data,
+      degrees: degree,
+      role: "doctor",
+      duration: duration,
+    };
     const newImage = { image: image };
     newData.specialties = selectObj;
     const imageForm = new FormData(e.target);
@@ -130,6 +140,15 @@ function AddDoctors() {
     setCount(true);
   };
 
+  const handleDuration = (e) => {
+    const value = e.target.value;
+    var regExp = /[a-zA-Z]/g;
+    if (regExp.test(value)) {
+      window.alert("You cannot enter letter or symbols");
+    }
+    const parseValue = parseInt(value);
+    setDuration(parseValue);
+  };
   return (
     <>
       <div className="px-8 department my-3">
@@ -228,10 +247,11 @@ function AddDoctors() {
                 type="time"
                 className="rounded-lg"
                 style={{ width: "90%" }}
-                {...register("startTime", { required: true })}
+                {...register("start_time", { required: true })}
+                required
               />
               <div className="text-red-500">
-                {errors.startTime && <span>This field is required</span>}
+                {errors.start_time && <span>This field is required</span>}
               </div>
             </div>
             <div className="my-2">
@@ -240,10 +260,10 @@ function AddDoctors() {
                 type="time"
                 className="rounded-lg"
                 style={{ width: "90%" }}
-                {...register("endTime", { required: true })}
+                {...register("end_time", { required: true })}
               />
               <div className="text-red-500">
-                {errors.endTime && <span>This field is required</span>}
+                {errors.end_time && <span>This field is required</span>}
               </div>
             </div>
           </div>
@@ -347,20 +367,38 @@ function AddDoctors() {
                 ""
               )}
             </div>
-            <div>
-              <label className="mx-2">Doctor Image</label>
-            </div>
-            <input
-              type="file"
-              placeholder="Type Here"
-              className="rounded-lg"
-              style={{ width: "90%" }}
-              multiple="multiple"
-              onChange={handleImage}
-              required
-            />
-            <div className="text-red-500">
-              {errors.first_name && <span>This field is required</span>}
+            <div className="flex">
+              <div>
+                <label className="mx-2">Doctor Image</label>
+                <input
+                  type="file"
+                  placeholder="Type Here"
+                  className="rounded-lg"
+                  style={{ width: "90%" }}
+                  multiple="multiple"
+                  onChange={handleImage}
+                  name="file"
+                  required
+                />
+                <div className="text-red-500">
+                  {errors.file && <span>This field is required</span>}
+                </div>
+              </div>
+              <div>
+                <div>
+                  <label className="mx-2">Doctor Duration</label>
+                  <input
+                    type="number"
+                    placeholder="Type Here"
+                    className="rounded-lg"
+                    style={{ width: "90%" }}
+                    onChange={handleDuration}
+                  />
+                  <div className="text-red-500">
+                    {errors.duration && <span>This field is required</span>}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

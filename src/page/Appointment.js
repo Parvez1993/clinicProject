@@ -13,8 +13,6 @@ function Appointment() {
   const [specialties, setSpecialties] = React.useState("");
   const [count, setCount] = React.useState(false);
 
-  const { user } = useUserContext();
-
   React.useEffect(() => {
     const getSpeciality = async () => {
       try {
