@@ -25,9 +25,9 @@ function SidePanel() {
           </li>
           <li className="text-base p-4 flex items-center">
             <img
-              src="https://img.icons8.com/color/48/26e07f/circled-user-female-skin-type-4--v1.png"
+              src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-appointment-telemedicine-justicon-lineal-color-justicon.png"
               alt="patient"
-              className="w-10"
+              className="w-8 mx-2"
             />
             <p
               className="text-md opacity-80"
@@ -38,9 +38,9 @@ function SidePanel() {
           </li>
           <li className="text-base p-4 flex items-center">
             <img
-              src="https://img.icons8.com/color/48/26e07f/circled-user-female-skin-type-4--v1.png"
+              src="https://img.icons8.com/bubbles/50/000000/apple-notes.png"
               alt="patient"
-              className="w-10"
+              className="w-12"
             />
             <p
               className="text-base opacity-80"

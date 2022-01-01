@@ -8,6 +8,8 @@ import Sidebar from "./Sidebar";
 function Navbar() {
   const { setSidebar } = useSidebarContext();
   const { user, setUser } = useUserContext();
+
+  console.log("lalala", user);
   const navigate = useNavigate();
 
   console.log(user);
@@ -70,7 +72,7 @@ function Navbar() {
               Appointment
             </Link>
 
-            {user.token ? (
+            {Object.values(user)[3] ? (
               <button
                 className="px-2 text-xl text-pink-50 hover:bg-menu rounded-none  p-2 transition delay-75 duration-300 ease-in"
                 onClick={logout}

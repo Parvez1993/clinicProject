@@ -1,6 +1,22 @@
+import axios from "axios";
 import React from "react";
+import { useUserContext } from "../../contextApi/userContext";
 
 function AppointmentDate() {
+  const [userdetails, setUserDetails] = React.useState("");
+  const { user } = useUserContext();
+
+  React.useEffect(() => {
+    if (user.length !== 0) {
+      const id = Object.values(user)[0];
+      axios
+        .get(`http://localhost:4000/api/patient/appointments/${id}`)
+        .then((res) => {
+          setUserDetails(res.data);
+        });
+    }
+  }, [user]);
+
   return (
     <div class="w-full max-w-5xl my-12 mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
       <header class="px-5 py-4 border-b border-gray-100">
@@ -15,53 +31,49 @@ function AppointmentDate() {
                   <div class="font-semibold text-left">Name</div>
                 </th>
                 <th class="p-2 whitespace-nowrap">
-                  <div class="font-semibold text-left">Appointment</div>
+                  <div class="font-semibold text-left">Email</div>
                 </th>
                 <th class="p-2 whitespace-nowrap">
-                  <div class="font-semibold text-left">Doctor</div>
+                  <div class="font-semibold text-left">Doctor Name</div>
                 </th>
                 <th class="p-2 whitespace-nowrap">
-                  <div class="font-semibold text-center">Time</div>
+                  <div class="font-semibold text-left">Appointment Date</div>
+                </th>
+                <th class="p-2 whitespace-nowrap">
+                  <div class="font-semibold text-left">Appointment Time</div>
                 </th>
               </tr>
             </thead>
             <tbody class="text-sm divide-y divide-gray-100">
-              <tr>
-                <td class="p-2 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div class="font-medium text-gray-800">Alex Shatov</div>
-                  </div>
-                </td>
-                <td class="p-2 whitespace-nowrap">
-                  <div class="text-left">alexshatov@gmail.com</div>
-                </td>
-                <td class="p-2 whitespace-nowrap">
-                  <div class="text-left font-medium text-green-500">
-                    $2,890.66
-                  </div>
-                </td>
-                <td class="p-2 whitespace-nowrap">
-                  <div class="text-lg text-center">🇺🇸</div>
-                </td>
-              </tr>
-              <tr>
-                <td class="p-2 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div class="font-medium text-gray-800">Philip Harbach</div>
-                  </div>
-                </td>
-                <td class="p-2 whitespace-nowrap">
-                  <div class="text-left">philip.h@gmail.com</div>
-                </td>
-                <td class="p-2 whitespace-nowrap">
-                  <div class="text-left font-medium text-green-500">
-                    $2,767.04
-                  </div>
-                </td>
-                <td class="p-2 whitespace-nowrap">
-                  <div class="text-lg text-center">🇩🇪</div>
-                </td>
-              </tr>
+              {userdetails
+                ? userdetails.map((detail) => {
+                    return (
+                      <tr>
+                        <td class="p-2 whitespace-nowrap">
+                          <div class="flex items-center">
+                            <div class="font-medium text-gray-800">
+                              {detail.firstname} {detail.lastname}
+                            </div>
+                          </div>
+                        </td>
+                        <td class="p-2 whitespace-nowrap">
+                          <div class="text-left"> {detail.email}</div>
+                        </td>
+                        <td class="p-2 whitespace-nowrap">
+                          <div class="text-left font-medium text-green-500">
+                            {detail.doctorname}
+                          </div>
+                        </td>
+                        <td class="p-2 whitespace-nowrap">
+                          <div class="text-lg text-center"> {detail.date}</div>
+                        </td>
+                        <td class="p-2 whitespace-nowrap">
+                          <div class="text-lg text-center"> {detail.time}</div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                : "waiting"}
             </tbody>
           </table>
         </div>

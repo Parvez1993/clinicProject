@@ -24,6 +24,7 @@ function BookDoctor(props) {
   let [slotSelected, setSlotSelected] = useState("Choose");
   let [dataSelected, setdataSelected] = useState("");
   let temp = "";
+
   React.useEffect(() => {
     if (docid) {
       const getDoctors = async () => {
@@ -33,7 +34,6 @@ function BookDoctor(props) {
           );
           setCalender(data.appt);
           setDoctors(data);
-          console.log(data);
         } catch (error) {
           console.log(error);
         }
@@ -55,19 +55,6 @@ function BookDoctor(props) {
       });
     }
   }, [user]);
-
-  console.log("firstname", firstname);
-
-  console.log(user.length);
-
-  // const disablePastDate = () => {
-  //   const today = new Date();
-  //   const dd = String(today.getDate() + 1).padStart(2, "0");
-  //   const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  //   const yyyy = today.getFullYear();
-  //   return yyyy + "-" + mm + "-" + dd;
-  // };
-
   const handleChange = async (e) => {
     const value = await moment(e).format("DD/MM/YYYY");
     console.log(value);
@@ -93,6 +80,7 @@ function BookDoctor(props) {
         time: slotSelected,
         doctor_id: doctors._id,
         doctor_name: doctors.first_name + " " + doctors.last_name,
+        user_id: userdetails._id,
       };
 
       const requestOptions = {

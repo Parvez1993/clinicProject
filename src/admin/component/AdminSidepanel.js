@@ -47,19 +47,6 @@ function AdminSidepanel() {
               PRESCRIPTION
             </p>
           </li>
-          <li className="text-base p-4 flex items-center">
-            <img
-              src="https://img.icons8.com/color/48/26e07f/circled-user-female-skin-type-4--v1.png"
-              alt="patient"
-              className="w-10"
-            />
-            <p
-              className="text-base opacity-80 uppercase"
-              onClick={() => setList("view_users")}
-            >
-              View Users
-            </p>
-          </li>
 
           <li className="text-base p-4 flex items-center">
             <img

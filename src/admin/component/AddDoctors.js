@@ -14,13 +14,14 @@ function AddDoctors() {
   //store degree
   const [degree, setDegree] = useState([]);
   const [count, setCount] = useState(false);
-  const [message, setMessage] = useState("Successfully done");
+  const [message, setMessage] = useState("");
 
   const [error, setError] = useState("Error");
 
   let degreeArray = [];
   const { user } = useUserContext();
-
+  console.log("userrrr", user);
+  console.log("degree", degree);
   //image
   const [image, setImage] = useState("");
 
@@ -48,7 +49,9 @@ function AddDoctors() {
   } = useForm();
 
   const onSubmit = async (data, e) => {
-    console.log(data);
+    if (degree === []) {
+      return window.alert("Please enter the degrees");
+    }
     if (!degree.length > 0 || degree.length < 1) {
       return setError("Please fill the degree by pressing enter");
     }
@@ -67,10 +70,10 @@ function AddDoctors() {
     console.log(newImage);
     try {
       await axios.post("http://localhost:4000/api/image", imageForm);
-
+      const token = Object.values(user)[3];
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Authorization", "Token " + user.token);
+      myHeaders.append("Authorization", "Token" + token);
       const requestOptions = {
         method: "POST",
         body: JSON.stringify(newData),

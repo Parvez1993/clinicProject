@@ -1,17 +1,31 @@
+import axios from "axios";
 import React from "react";
+import { useUserContext } from "../../contextApi/userContext";
 import UserModal from "./UserModal";
 
 function UserProfile() {
   const [showModal, setShowModal] = React.useState(false);
+  const [userdetails, setUserDetails] = React.useState("");
+  const { user } = useUserContext();
 
+  React.useEffect(() => {
+    if (user.length !== 0) {
+      const id = Object.values(user)[0];
+      axios.get(`http://localhost:4000/api/patient/${id}`).then((res) => {
+        setUserDetails(res.data);
+      });
+    }
+  }, [user]);
+
+  console.log(userdetails);
   if (showModal) {
     return <UserModal showModal={showModal} setShowModal={setShowModal} />;
   }
   return (
     <div class="w-3/5 mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
       <img
-        class="object-cover object-center w-full h-28"
-        src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
+        class="object-cover object-fit w-full h-32"
+        src="https://d2v9ipibika81v.cloudfront.net/uploads/sites/210/Profile-Icon.png"
         alt="avatar"
       />
 
@@ -22,27 +36,17 @@ function UserProfile() {
       <div class="px-6 py-4">
         <div className="flex flex-col text-sm gap-y-3">
           <div>
-            <span className="font-bold">Name: </span>Ash
+            <span className="font-bold">Name: </span>{" "}
+            {`${userdetails.first_name} ${userdetails.last_name}`}
           </div>
           <div>
-            <span className="font-bold">Age: </span>30
+            <span className="font-bold">Phone: </span>
+            {userdetails.phone}
           </div>
           <div className="flex justify-between">
             <div>
-              <span className="font-bold">Phone: </span>01910101
+              <span className="font-bold">Email: </span> {userdetails.email}
             </div>
-          </div>
-          <div>
-            <span className="font-bold">Email: </span>md@gmail.com
-          </div>
-          <div>
-            <button
-              className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm  rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 w-14"
-              type="button"
-              onClick={() => setShowModal(true)}
-            >
-              Edit
-            </button>
           </div>
         </div>
       </div>

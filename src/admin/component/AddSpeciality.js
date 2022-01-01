@@ -85,7 +85,7 @@ function AddSpeciality() {
         </span>
         <input
           type="text"
-          placeholder="Placeholder"
+          placeholder="Add and press enter"
           class="px-3 py-4 placeholder-green-800 text-blueGray-600 relative bg-white rounded text-base shadow  w-full pl-10 focusInput"
           onKeyDown={handleKeyPress}
         />
@@ -107,17 +107,6 @@ function AddSpeciality() {
             : "No speciality to show"}
         </ul>
       </div>
-      {/* <object
-        data="http://africau.edu/images/default/sample.pdf"
-        type="application/pdf"
-        width="100%"
-        height="100%"
-      >
-        <p>
-          Alternative text - include a link{" "}
-          <a href="http://africau.edu/images/default/sample.pdf">to the PDF!</a>
-        </p>
-      </object> */}
     </>
   );
 }
