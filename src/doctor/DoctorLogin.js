@@ -2,8 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../contextApi/userContext";
-
-function Login() {
+function DoctorLogin() {
   const { user, setUser, error, setError } = useUserContext();
   const {
     register,
@@ -23,7 +22,7 @@ function Login() {
       headers: myHeaders,
     };
 
-    await fetch("http://localhost:4000/api/signin", requestOptions).then(
+    await fetch("http://localhost:4000/api/doctor/signin", requestOptions).then(
       (response) =>
         response
           .json()
@@ -42,8 +41,8 @@ function Login() {
     );
   };
 
-  if (user.role === "admin") {
-    navigate("/admin");
+  if (user.role === "doctor") {
+    navigate("/doctor");
   }
 
   if (user.role === "user") {
@@ -72,7 +71,7 @@ function Login() {
       <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
         <div class="lg:w-3/6 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
           <h1 class="title-font font-medium text-3xl text-gray-900">
-            Slow-carb next level shoindcgoitch ethical authentic, poko scenester
+            Welcome Doctors to the hub of Care
           </h1>
           <p class="leading-relaxed mt-4">
             Poke slow-carb mixtape knausgaard, typewriter street art gentrify
@@ -125,11 +124,8 @@ function Login() {
             </Link>
           </p>
           <p class="text-xs text-gray-500 mt-3">
-            Are you a Doctor click here ?{" "}
-            <Link
-              to="/doctor/login/"
-              style={{ color: "red", fontSize: "18px" }}
-            >
+            If you are not Doctor click here ?{" "}
+            <Link to="/login" style={{ color: "red", fontSize: "18px" }}>
               Click here
             </Link>
           </p>
@@ -139,4 +135,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default DoctorLogin;

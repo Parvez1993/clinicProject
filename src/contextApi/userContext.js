@@ -14,8 +14,24 @@ export const UserProvider = ({ children }) => {
   const [list, setList] = useState("");
   const [user, setUser] = React.useState(getLocalStorage());
 
+  const [error, setError] = useState("");
+  console.log("saaxx", user);
+  useEffect(() => {
+    const timeId = setTimeout(() => {
+      if (error) {
+        setError("");
+      }
+    }, 3000);
+
+    return () => {
+      clearTimeout(timeId);
+    };
+  }, [error]);
+
   return (
-    <UserContext.Provider value={{ user, setUser, list, setList }}>
+    <UserContext.Provider
+      value={{ user, setUser, list, setList, error, setError }}
+    >
       {children}
     </UserContext.Provider>
   );

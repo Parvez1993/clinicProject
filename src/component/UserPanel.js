@@ -21,7 +21,7 @@ function UserPanel() {
   };
 
   const { list } = useUserContext();
-  console.log(list);
+
   return (
     <>
       <section class="text-gray-600 body-font">

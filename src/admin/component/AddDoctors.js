@@ -28,6 +28,7 @@ function AddDoctors() {
   //duration
 
   const [duration, setDuration] = useState("");
+
   useEffect(() => {
     const getData = async () => {
       try {

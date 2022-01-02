@@ -10,6 +10,8 @@ import Login from "./component/Login";
 import UserSignup from "./component/UserSignup";
 import Admin from "./admin/component/Admin";
 import UserLogin from "./component/UserLogin";
+import DoctorLogin from "./doctor/DoctorLogin";
+import DoctorPanel from "./doctor/DoctorPanel";
 function App() {
   return (
     <>
@@ -24,6 +26,8 @@ function App() {
           <Route path="/appointment" element={<Appointment />} />
           <Route path="/user/addDoctors" element={<UserAppointment />} />
           <Route path="/admin/doctors/" element={<Doctors />} />
+          <Route path="/doctor/login/" element={<DoctorLogin />} />
+          <Route path="/doctor" element={<DoctorPanel />} />
           <Route path="try" element={<UserLogin />} />
         </Routes>
       </BrowserRouter>
