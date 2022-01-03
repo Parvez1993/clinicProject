@@ -10,9 +10,9 @@ function AdminSidepanel() {
         <div className="flex flex-wrap  md:flex-col">
           <li className="text-base p-4 flex items-center">
             <img
-              src="https://img.icons8.com/color/48/26e07f/circled-user-female-skin-type-4--v1.png"
+              src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-doctor-hospital-and-medical-justicon-lineal-color-justicon.png"
               alt="patient"
-              className="w-10"
+              className="w-8 mr-4"
             />
             <p
               className="text-md opacity-80"
@@ -23,9 +23,9 @@ function AdminSidepanel() {
           </li>
           <li className="text-base p-4 flex items-center">
             <img
-              src="https://img.icons8.com/color/48/26e07f/circled-user-female-skin-type-4--v1.png"
+              src="https://img.icons8.com/external-kiranshastry-lineal-color-kiranshastry/64/000000/external-skills-business-and-management-kiranshastry-lineal-color-kiranshastry-16.png"
               alt="patient"
-              className="w-10"
+              className="w-8 mr-4"
             />
             <p
               className="text-md opacity-80"
@@ -34,25 +34,12 @@ function AdminSidepanel() {
               Add Speciality
             </p>
           </li>
-          <li className="text-base p-4 flex items-center">
-            <img
-              src="https://img.icons8.com/color/48/26e07f/circled-user-female-skin-type-4--v1.png"
-              alt="patient"
-              className="w-10"
-            />
-            <p
-              className="text-base opacity-80"
-              onClick={() => setList("prescription")}
-            >
-              PRESCRIPTION
-            </p>
-          </li>
 
           <li className="text-base p-4 flex items-center">
             <img
-              src="https://img.icons8.com/color/48/26e07f/circled-user-female-skin-type-4--v1.png"
+              src="https://img.icons8.com/clouds/100/000000/view-file.png"
               alt="patient"
-              className="w-10"
+              className="w-10 mr-4"
             />
             <p
               className="text-base opacity-80 uppercase"

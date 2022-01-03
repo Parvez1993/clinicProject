@@ -33,6 +33,7 @@ function DoctorPasswordChange() {
         requestOptions
       ).then(() => setMess("Successfully changed"));
     }
+    e.target.reset();
   };
   return (
     <>

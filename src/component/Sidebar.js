@@ -50,22 +50,45 @@ function Sidebar() {
           >
             About
           </Link>
-          <Link
-            to="#"
-            className="p-3 hover:bg-menu hover:text-pink-50 transition delay-75 duration-300 ease-in"
-          >
-            Contact
-          </Link>
-          <Link
-            to="/Appointment"
-            className="p-3 hover:bg-menu hover:text-pink-50 transition delay-75 duration-300 ease-in"
-          >
-            Appointment
-          </Link>
 
-          {user ? (
+          {user.role !== "doctor" ? (
+            <Link
+              to="/Appointment"
+              className="p-3 hover:bg-menu hover:text-pink-50 transition delay-75 duration-300 ease-in"
+            >
+              Appointment
+            </Link>
+          ) : (
+            ""
+          )}
+
+          {Object.values(user)[1] === "admin" ? (
+            <Link
+              to="/admin"
+              className="p-3 hover:bg-menu hover:text-pink-50 transition delay-75 duration-300 ease-in"
+            >
+              Profile
+            </Link>
+          ) : Object.values(user)[1] === "doctor" ? (
+            <Link
+              to="/doctor"
+              className="p-3 hover:bg-menu hover:text-pink-50 transition delay-75 duration-300 ease-in"
+            >
+              Profile
+            </Link>
+          ) : Object.values(user)[1] === "user" ? (
+            <Link
+              to="/user"
+              className="p-3 hover:bg-menu hover:text-pink-50 transition delay-75 duration-300 ease-in"
+            >
+              Profile
+            </Link>
+          ) : (
+            ""
+          )}
+          {Object.values(user)[3] ? (
             <button
-              className="px-2 text-xl text-pink-50 hover:bg-menu rounded-none  p-2 transition delay-75 duration-300 ease-in"
+              className="p-3 hover:bg-menu hover:text-pink-50 transition delay-75 duration-300 ease-in"
               onClick={logout}
             >
               Logout
@@ -73,7 +96,7 @@ function Sidebar() {
           ) : (
             <Link
               to="/login"
-              className="px-2 text-xl text-pink-50 hover:bg-menu rounded-none  p-2 transition delay-75 duration-300 ease-in"
+              className="p-3 hover:bg-menu hover:text-pink-50 transition delay-75 duration-300 ease-in"
             >
               Login
             </Link>

@@ -20,49 +20,6 @@ function Appointment() {
               </div>
             </p>
           </div>
-          {/* <div className="grid grid-cols-2 grid-flow-row gap-2 my-16 ">
-            <input
-              type="text"
-              placeholder="first name"
-              name="firstName"
-              className="placeholder-green-800 focus:ring-green-800 focus:border-transparent"
-            />
-            <input
-              type="text"
-              placeholder="last name"
-              name="lastName"
-              className="placeholder-green-800 focus:ring-green-800 focus:border-transparent"
-            />
-            <input
-              type="number"
-              placeholder="phone"
-              name="phone"
-              className="placeholder-green-800 focus:ring-green-800 focus:border-transparent"
-            />
-            <input
-              type="email"
-              placeholder="email"
-              name="email"
-              className="placeholder-green-800 focus:ring-green-800 focus:border-transparent"
-            />
-            <input
-              type="date"
-              placeholder="date"
-              name="date"
-              className="placeholder-green-800 text-green-800 focus:ring-green-800 focus:border-transparent"
-            />
-            <input
-              type="time"
-              placeholder="time"
-              name="time"
-              className="placeholder-green-800 text-green-800 focus:ring-green-800 focus:border-transparent"
-            />
-            <textarea
-              placeholder="message"
-              className="col-span-2 h-24 placeholder-green-800 focus:ring-green-800 focus:border-transparent"
-              style={{ resize: "none" }}
-            ></textarea>
-          </div> */}
         </div>
       </div>
       <div>

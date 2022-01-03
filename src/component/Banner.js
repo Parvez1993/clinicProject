@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import banner from "../images/banner.jpg";
 function Banner() {
   return (
@@ -14,8 +15,8 @@ function Banner() {
         <p className="text-2xl md:text-3xl lg:text-4xl  tracking-wide my-10">
           Get free consultancy now
         </p>
-        <div class="rounded-sm text-3xl   text-pink-50 p-2 animate-pulse bg-menu inline">
-          Book Now
+        <div class="rounded-sm text-3xl   text-pink-50 p-2 animate-pulse bg-menu inline cursor-pointer ">
+          <Link to="/appointment"> Book Now</Link>
         </div>
       </div>
     </div>

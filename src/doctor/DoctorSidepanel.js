@@ -46,19 +46,6 @@ function DoctorSidepanel() {
               APPOINTMENT
             </p>
           </li>
-          <li className="text-base p-4 flex items-center">
-            <img
-              src="https://img.icons8.com/bubbles/50/000000/apple-notes.png"
-              alt="patient"
-              className="w-12"
-            />
-            <p
-              className="text-base opacity-80"
-              onClick={() => setList("prescription")}
-            >
-              PRESCRIPTION
-            </p>
-          </li>
         </div>
       </ul>
     </div>

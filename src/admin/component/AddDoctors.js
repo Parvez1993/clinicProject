@@ -62,13 +62,13 @@ function AddDoctors() {
       role: "doctor",
       duration: duration,
     };
-    const newImage = { image: image };
+
     newData.specialties = selectObj;
     const imageForm = new FormData(e.target);
     imageForm.append("image", image);
 
     e.target.reset();
-    console.log(newImage);
+
     try {
       await axios.post("http://localhost:4000/api/image", imageForm);
       const token = Object.values(user)[3];

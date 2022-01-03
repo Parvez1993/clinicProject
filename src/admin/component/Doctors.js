@@ -18,13 +18,13 @@ function Doctors() {
   }, []);
 
   const handleDelete = async (id) => {
-    axios.delete(`http://localhost:4000/api/doctorD/${id}`);
+    axios.delete(`http://localhost:4000/api/ddoctor/${id}`);
     setCount(true);
     console.log(id);
   };
 
   useEffect(() => {
-    if (count === true) {
+    if (count) {
       setCount(false);
     }
   }, [count]);

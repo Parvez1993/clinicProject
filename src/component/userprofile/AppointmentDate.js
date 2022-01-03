@@ -13,6 +13,7 @@ function AppointmentDate() {
         .get(`http://localhost:4000/api/patient/appointments/${id}`)
         .then((res) => {
           setUserDetails(res.data);
+          console.log(userdetails);
         });
     }
   }, [user]);

@@ -60,14 +60,14 @@ function Departments() {
         <Slider {...settings}>
           {department.map((i, index) => (
             <div key={index}>
-              <div className="px-1 lg:px-10 md:mx-20 w-full">
+              <div className="px-1 lg:px-10 md:mx-20">
                 <img
                   alt={i.name}
                   src={i.image}
                   className="h-28 w-auto lg:w-full lg:h-60"
                 />
-                <h2 className="font-bold text-base">{i.name}</h2>
-                <div className="text-xs">{i.para}</div>
+                <h2 className="font-bold text-md">{i.name}</h2>
+                <div className="text-md">{i.para}</div>
               </div>
             </div>
           ))}

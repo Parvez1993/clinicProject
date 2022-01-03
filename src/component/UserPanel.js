@@ -1,6 +1,7 @@
 import React from "react";
 
-import { useUserContext } from "../contextApi/userContext";
+import { useUserContext as listContext } from "../contextApi/userContext";
+import UserPrescription from "./UserPrescription";
 import AppointmentDate from "./userprofile/AppointmentDate";
 import SidePanel from "./userprofile/SidePanel";
 import UserProfile from "./userprofile/UserProfile";
@@ -12,15 +13,13 @@ function UserPanel() {
     } else if (list === "appointment") {
       return <AppointmentDate />;
     } else if (list === "prescription") {
-      return <h3>prescription</h3>;
-    } else if (list === "history") {
-      return <h3>history</h3>;
+      return <UserPrescription />;
     } else {
-      return <h3>Welcome to the admin panel</h3>;
+      return <AppointmentDate />;
     }
   };
 
-  const { list } = useUserContext();
+  const { list } = listContext();
 
   return (
     <>

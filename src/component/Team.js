@@ -59,9 +59,9 @@ function Team() {
                     src={i.image}
                     className="h-full w-full lg:w-full lg:h-60"
                   />
-                  <h2 className="font-bold text-base text-center">{i.name}</h2>
-                  <div className="text-xs text text-center">({i.sub})</div>
-                  <div className="text-xs text-center">{i.para}</div>
+                  <h2 className="font-bold text-md text-center">{i.name}</h2>
+                  <div className="text-md text text-center">({i.sub})</div>
+                  <div className="text-base text-center">{i.para}</div>
                 </div>
               </div>
             ))}

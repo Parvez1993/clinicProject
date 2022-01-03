@@ -17,7 +17,7 @@ function DoctorPanel() {
     } else if (list === "prescription") {
       return <DoctorPrescription />;
     } else {
-      return <h3>Welcome to the admin panel</h3>;
+      return <DoctorAppointment />;
     }
   };
 
@@ -25,7 +25,7 @@ function DoctorPanel() {
 
   return (
     <section class="text-gray-600 body-font">
-      <div class="container px-5 py-12 mx-auto flex flex-col">
+      <div class="px-5 py-12 mx-auto flex flex-col">
         <div class="lg:w-4/5 mx-auto">
           <div class="flex flex-col sm:flex-row mt-10">
             <div class="sm:w-1/3 text-center sm:pr-8 sm:py-8">

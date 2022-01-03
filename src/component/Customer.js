@@ -48,7 +48,7 @@ function Customer() {
     <>
       <div className="my-16">
         <div className="">
-          <div className="text-center my-6">What Customer Says</div>
+          <div className="text-center my-6 text-2xl">What Customer Says</div>
         </div>
         <Slider ref={(c) => (slider.current = c)} {...settings}>
           {user.map((i, index) => (
@@ -77,12 +77,10 @@ function Customer() {
                     </div>
                   </div>
                   <div>
-                    <h2 className="font-bold text-base text-center">
-                      {i.name}
-                    </h2>
+                    <h2 className="font-bold text-xl text-center">{i.name}</h2>
                   </div>
-                  <div className="text-xs text text-center">({i.quote})</div>
-                  <div className="text-xs text-center font-bold">
+                  <div className="text-md text text-center">({i.quote})</div>
+                  <div className="text-sm text-center font-bold">
                     {i.position}
                   </div>
                 </div>

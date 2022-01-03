@@ -83,11 +83,7 @@ function Appointment() {
                   <div class="flex font-serif w-40 bg shadow-lg">
                     <div class="flex-none w-52 relative">
                       <img
-                        src={
-                          doctor.image
-                            ? doctor.image
-                            : "https://thumbs.dreamstime.com/z/default-placeholder-doctor-half-length-portrait-photo-avatar-gray-color-119556416.jpg"
-                        }
+                        src="https://thumbs.dreamstime.com/z/default-placeholder-doctor-half-length-portrait-photo-avatar-gray-color-119556416.jpg"
                         alt=""
                         class="absolute inset-0 w-full h-full object-cover rounded-lg"
                       />
